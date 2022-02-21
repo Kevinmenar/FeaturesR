@@ -1,0 +1,11 @@
+file <- list(Train)
+
+nortest_generator(file)
+stats_generator(file)
+lift_generator(file)
+catch22_generator(file)
+pracma_generator(file)
+fractal_generator(file)
+tsFeatures_generator(file)
+tseries_generator(file)
+longmemo_generator(file)
