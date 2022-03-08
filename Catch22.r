@@ -1,6 +1,6 @@
 library(Rcatch22)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 processed_list <- list()
 
@@ -26,9 +26,9 @@ catch22_generator <- function(file) {
       serie_out <- rbind(serie_out, processed_list[[i+1]])
     }
   } 
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, serie_out)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
-catch22_generator(series_file_list)
+# catch22_generator(series_file_list)

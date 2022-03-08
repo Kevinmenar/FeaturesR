@@ -8,7 +8,7 @@ library(anomalize)
 library(tidyverse)
 library(wavelets)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 tsfeatures_df <- data.frame(hurts_tsf=double(), max_level_shift_tsf=double(),
                             max_var_shift_tsf=double(), max_kl_shift_tsf=double(),
@@ -26,7 +26,13 @@ tsfeatures_df <- data.frame(hurts_tsf=double(), max_level_shift_tsf=double(),
                             unitroot_pp_tsf=double(), arch_stat_tsf=double(), acf_features_x_acf1=double(),
                             acf_features_x_acf10=double(),acf_features_seas_acf1=double(),
                             acf_features_diff2x_pacf5=double(),
-                            acf_features_x_pacf5=double())
+                            acf_features_x_pacf5=double(), stl_features_nperiods=double(),
+                            stl_features_seasonal_period=double(), stl_features_trend=double(),
+                            stl_features_spike=double(), stl_features_linearity=double(),
+                            stl_features_curvature=double(), stl_features_e_acf1=double(),
+                            stl_features_e_acf10=double(), stl_features_seasonal_strength=double(),
+                            stl_features_peak=double(), stl_features_trough=double(),
+                            stl_features_trough=double())
 
 tsFeatures_generator <- function (file) {
   for (series in file) {
@@ -71,6 +77,18 @@ tsFeatures_generator <- function (file) {
       acf_features_seas_acf1 <- acf_features(serie)["seas_acf1"]
       acf_features_diff2x_pacf5 <- pacf_features(serie)["diff2x_pacf5"]
       acf_features_x_pacf5 <- pacf_features(serie)["x_pacf5"]
+      stl_features_temp <- stl_features(serie)
+      stl_features_nperiods <- stl_features_temp["nperiods"]
+      stl_features_seasonal_period <- stl_features_temp["seasonal_period"]
+      stl_features_trend <- stl_features_temp["trend"]
+      stl_features_spike <- stl_features_temp["spike"]
+      stl_features_linearity <- stl_features_temp["linearity"]
+      stl_features_curvature <- stl_features_temp["curvature"]
+      stl_features_e_acf1 <- stl_features_temp["e_acf1"]
+      stl_features_e_acf10 <- stl_features_temp["e_acf10"]
+      stl_features_seasonal_strength <- stl_features_temp["seasonal_strength"]
+      stl_features_peak <- stl_features_temp["peak"]
+      stl_features_trough <- stl_features_temp["trough"]
       
       
       serie <- data.frame(hurts_tsf=hurts_tsf, max_level_shift_tsf=getElement(max_level_shift_tsf, "max_level_shift"),
@@ -89,14 +107,20 @@ tsFeatures_generator <- function (file) {
                           flat_spots_tsf=flat_spots_tsf, nonlinearity_tsf=nonlinearity_tsf, unitroot_kpss_tsf=unitroot_kpss_tsf,
                           unitroot_pp_tsf=unitroot_pp_tsf, arch_stat_tsf=arch_stat_tsf, acf_features_x_acf1=acf_features_x_acf1,
                           acf_features_x_acf10=acf_features_x_acf10, acf_features_seas_acf1=acf_features_seas_acf1,
-                          acf_features_diff2x_pacf5=acf_features_diff2x_pacf5, acf_features_x_pacf5=acf_features_x_pacf5)
+                          acf_features_diff2x_pacf5=acf_features_diff2x_pacf5, acf_features_x_pacf5=acf_features_x_pacf5,
+                          stl_features_nperiods=stl_features_nperiods, stl_features_seasonal_period=stl_features_seasonal_period,
+                          stl_features_trend=stl_features_trend, stl_features_spike=stl_features_spike, 
+                          stl_features_linearity=stl_features_linearity, stl_features_curvature=stl_features_curvature,
+                          stl_features_e_acf1=stl_features_e_acf1, stl_features_e_acf10=stl_features_e_acf10,
+                          stl_features_seasonal_strength=stl_features_seasonal_strength,
+                          stl_features_peak=stl_features_peak, stl_features_trough=stl_features_trough)
       
       tsfeatures_df <- rbind(tsfeatures_df, serie)
     }
   } 
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, tsfeatures_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
-# tsFeatures_generator(series_file_list)
+#tsFeatures_generator(series_file_list)

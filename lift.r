@@ -1,6 +1,6 @@
 library(liftLRD)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 liftLRD_df <- data.frame(lift_LRD_test=double())
 
@@ -21,9 +21,9 @@ lift_generator <- function(file) {
       liftLRD_df <- rbind(liftLRD_df, serie)
     }
   }
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, liftLRD_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
 # lift_generator(series_file_list)

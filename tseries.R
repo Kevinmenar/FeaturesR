@@ -1,6 +1,6 @@
 library(tseries)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 t_series_df <- data.frame(adf=double(), kpps_level=double(),
                           kpps_trend=double(), pp=double(),
@@ -45,9 +45,9 @@ tseries_generator <- function (file) {
       t_series_df <- rbind(t_series_df, serie)
     }
   }
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, t_series_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
-#tseries_generator(series_file_list)
+# tseries_generator(series_file_list)

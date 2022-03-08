@@ -1,6 +1,6 @@
 library(nortest)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 nortest_df <- data.frame(lillie_test=double(), anderson_darling=double(),
                          pearson_test=double(), cramer_test=double(),
@@ -35,4 +35,4 @@ nortest_generator <- function (file) {
   write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
 }
 
-# nortest_generator(series_file_list)
+#nortest_generator(series_file_list)

@@ -4,7 +4,7 @@ library(fractaldim)
 library(TSEntropies)
 library(wavelets)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 stats_df <- data.frame(estim_hallwood=double(), estim_dctII=double(), estim_wavelet=double(),
                        estim_variogram=double(), estim_madogram=double(), estim_rodogram=double(), 

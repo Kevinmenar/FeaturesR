@@ -1,13 +1,13 @@
 library(pracma)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 pracma_df <- data.frame(pracma_hs=double(), pracma_hrs=double(),
                         pracma_he=double(), pracma_hal=double(),
                         pracma_ht=double())
 
 pracma_generator <- function (file) {
-  for (series in series_file_list) {
+  for (series in file) {
     for (i in 1:nrow(series)) {
       sub_serie <- subset(series, select = -c(Tipo,Serie))
       serie <- unname(unlist(sub_serie[i,]))
@@ -25,9 +25,9 @@ pracma_generator <- function (file) {
       pracma_df <- rbind(pracma_df, serie)
     }
   }
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, pracma_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
-pracma_generator(series_file_list)
+# pracma_generator(series_file_list)

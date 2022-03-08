@@ -1,6 +1,6 @@
 library(fractal)
 
-series_file_list <- list(Train)
+# series_file_list <- list(Train)
 
 fractal_df <- data.frame(fractal_spectral_lag_window=double(), fractal_spectral_multitaper=double(),
                          fractal_spectral_wosa=double(), fractal_spectral_direct=double(),
@@ -31,9 +31,9 @@ fractal_generator <- function (list) {
       fractal_df <- rbind(fractal_df, serie)
     }
   } 
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, fractal_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
-fractal_generator(series_file_list)
+# fractal_generator(series_file_list)
