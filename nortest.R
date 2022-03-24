@@ -30,9 +30,9 @@ nortest_generator <- function (file) {
       }
     }
   }
-  tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
   tmp <- cbind(tmp, nortest_df)
-  write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\out.csv")
+  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
 }
 
 #nortest_generator(series_file_list)
