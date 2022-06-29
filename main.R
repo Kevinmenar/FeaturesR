@@ -1,3 +1,5 @@
+# Para instalación en Kabré
+
 #r = getOption("repos")
 #r["CRAN"] = "http://cran.us.r-project.org"
 #options(repos = r)
@@ -23,22 +25,38 @@
 
 # source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\main.R")
 
+library(stats)
+library(fractal)
+library(pracma)
+library(rlang)
+library(dplyr)
 library(foreach)
 library(doParallel)
 library(Rcatch22)
 library(liftLRD)
+library(tseries)
+library(longmemo)
+library(nortest)
+library(PerformanceAnalytics)
 
-#source("nortest.R")
-#source("stats.R")
+library(tsfeatures)
+library(WeightedPortTest)
+library(fractaldim)
+library(TSEntropies)
+library(ForeCA)
+
+# Todas las rutas se encuentran absolutas, debido a un error con windows y las particiones. Para el ambiente de kabré se puede utilizar el direccionamiento dinámico ej: ./nortest.R
+
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\nortest.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\stats.R")
 source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\lift.R") # -> Cambiar path
 source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\Catch22.R")
-#source("pracma.R")
-# source("fractal.R")
-#source("tsfeatures.R")
-#source("tseries.R")
-#source("longmemo.R")
-#source("PerformanceAnalytics.R")
-
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\pracma.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\fractal.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\tseries.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\longmemo.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\PerformanceAnalytics.R")
+source("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\tsfeatures.R")
 
 Train <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\Train.csv", header=T)
 file <- list(Train)
@@ -48,35 +66,40 @@ out_frame <- data.frame()
 registerDoParallel(numCores)
 
 for (series in file) {
-  foreach (i = 1:nrow(series), .packages=c('Rcatch22', 'liftLRD')) %dopar% {
+  results_list  <- foreach (i = 1:nrow(series), .packages=c('Rcatch22', 'liftLRD', 'tseries', 'longmemo', 'nortest', 'PerformanceAnalytics', 'stats', 'pracma', 'fractal', 'tsfeatures', 'WeightedPortTest', 'fractaldim', 'TSEntropies', 'ForeCA')) %dopar% {
   #for (i in 1:nrow(series)) {
-
     sub_serie <- subset(series, select = -c(Tipo,Serie))
     serie <- unname(unlist(sub_serie[i,]))
     serie <- serie[!is.na(serie)]
-    tmp <- data.frame()
+    tmp <- data.frame(id = c (0:0))
 
+    # El único hiperparamentro utilizado fue el lag. Este es de 12
     catch_22_df <- catch22_function(serie, list_size, i)
     lift_df <- lift_function(serie)
-    
+    tseries_df <- tseries_generator(serie)
+    longmemo_df <- longmemo_generator(serie)
+    nortest_df <- nortest_generator(serie)
+    performance_analytics <- performance_analytics_generator(serie)
+    stats_df <- stats_generator(serie)
+    pracma_df <- pracma_generator(serie)
+    fractal_df <- fractal_generator(serie)
+
     tmp <- cbind(tmp, catch_22_df)
     tmp <- cbind(tmp, lift_df)
+    tmp <- cbind(tmp, tseries_df)
+    tmp <- cbind(tmp, longmemo_df)
+    tmp <- cbind(tmp, nortest_df)
+    tmp <- cbind(tmp, performance_analytics)
+    tmp <- cbind(tmp, stats_df)
+    tmp <- cbind(tmp, pracma_df)
+    tmp <- cbind(tmp, fractal_df)
 
-    out_frame <- rbind(out_frame, tmp)
+    tmp
   }
+    out_frame <- bind_rows(results_list)
 }
 
 tmp <- read.csv("D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\out.csv")
 tmp <- cbind(tmp, out_frame)
 write.csv(tmp, "D:\\Klaus\\Docs\\University\\Asistencia\\4000\\FeaturesScripts\\out.csv")
 
-#nortest_generator(file)
-#stats_generator(file)
-#lift_generator(file)
-#catch22_generator(file)
-#pracma_generator(file)
-#fractal_generator(file)
-#tsFeatures_generator(file)
-#tseries_generator(file)
-#longmemo_generator(file)
-#performance_analytics_generator(file)

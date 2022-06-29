@@ -1,11 +1,5 @@
 library(tseries)
 
-# series_file_list <- list(Train)
-
-t_series_df <- data.frame(adf=double(), kpps_level=double(),
-                          kpps_trend=double(), pp=double(),
-                          pacf_ts=double())
-
 tserie_function <- function(serie) {
   out <- tryCatch(
     {
@@ -31,23 +25,19 @@ tserie_function <- function(serie) {
   )    
   return(out)
 }
-tseries_generator <- function (file) {
-  for (series in file) {
-    for (i in 1:nrow(series)) {
-      sub_serie <- subset(series, select = -c(Tipo,Serie))
-      serie <- unname(unlist(sub_serie[i,]))
-      serie <- serie[!is.na(serie)]
-      
+
+tseries_generator <- function (serie) {
+      t_series_df <- data.frame(adf=double(), kpps_level=double(),
+                          kpps_trend=double(), pp=double(),
+                          pacf_ts=double())
+
       serie <- ts(serie, start=c(2000, 1), frequency=12)
       
       serie <- tserie_function(serie)
       
       t_series_df <- rbind(t_series_df, serie)
-    }
-  }
-  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
-  tmp <- cbind(tmp, t_series_df)
-  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
+
+      return (t_series_df); 
 }
 
 # tseries_generator(series_file_list)

@@ -1,16 +1,6 @@
-library(tsfeatures)
-library(WeightedPortTest)
-library(fractaldim)
-library(TSEntropies)
-library(ForeCA)
-library(pracma)
-library(anomalize)
-library(tidyverse)
-library(wavelets)
+tsFeatures_generator <- function (serie) {
 
-# series_file_list <- list(Train)
-
-tsfeatures_df <- data.frame(hurts_tsf=double(), max_level_shift_tsf=double(),
+      tsfeatures_df <- data.frame(hurts_tsf=double(), max_level_shift_tsf=double(),
                             max_var_shift_tsf=double(), max_kl_shift_tsf=double(),
                             alpha_tsf=double(), beta_tsf=double(), gamma_tsf=double(), 
                             firstmin_ac_tsf=double(), firstzero_ac_tsf=double(),
@@ -34,15 +24,6 @@ tsfeatures_df <- data.frame(hurts_tsf=double(), max_level_shift_tsf=double(),
                             stl_features_peak=double(), stl_features_trough=double(),
                             stl_features_trough=double())
 
-tsFeatures_generator <- function (file) {
-  for (series in file) {
-    for (i in 1:nrow(series)) {
-      sub_serie <- subset(series, select = -c(Tipo,Serie))
-      serie <- unname(unlist(sub_serie[i,]))
-      serie <- serie[!is.na(serie)]
-      
-      serie <- ts(serie, start=c(2000, 1), frequency=12)
-      
       hurts_tsf <- hurst(serie)
       max_level_shift_tsf <- max_level_shift(serie)
       max_var_shift_tsf <- max_var_shift(serie)
@@ -116,11 +97,9 @@ tsFeatures_generator <- function (file) {
                           stl_features_peak=stl_features_peak, stl_features_trough=stl_features_trough)
       
       tsfeatures_df <- rbind(tsfeatures_df, serie)
+
+      return(tsfeatures_df)
     }
-  } 
-  tmp <- read.csv("~/MetaLearning/Asistencia/FeaturesR/out.csv")
-  tmp <- cbind(tmp, tsfeatures_df)
-  write.csv(tmp, "~/MetaLearning/Asistencia/FeaturesR/out.csv")
-}
+
 
 #tsFeatures_generator(series_file_list)
